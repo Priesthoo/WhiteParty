@@ -21,6 +21,8 @@ import {
 } from "./PaymentInfoSection";
 
 export function HomeSections() {
+  const tickets = eventConfig.tickets;
+
   return (
     <>
       {/* EXPERIENCE */}
@@ -113,6 +115,7 @@ export function HomeSections() {
               <MapPin />
               <span>VENUE</span>
               <strong>{eventConfig.venue}</strong>
+              <small>{eventConfig.venueLandmark}</small>
             </div>
 
             <div>
@@ -166,10 +169,13 @@ export function HomeSections() {
               </summary>
 
               <p>
-                Early Bird is the first ticket release.
-                Regular and Friends of 5 become
-                available automatically when the
-                Early Bird release is complete.
+                Early Bird tickets are limited to the
+                first {eventConfig.limits.earlyBirdAdmissions}
+                {" "}individual admissions at ₦
+                {tickets["early-bird"].priceNaira.toLocaleString("en-NG")}
+                {" "}each. Regular and Friends of 5 become
+                available after the Early Bird allocation
+                has been fully paid for and verified.
               </p>
             </details>
 
@@ -179,10 +185,11 @@ export function HomeSections() {
               </summary>
 
               <p>
-                One package costs ₦36,000 and includes
-                five individual admissions. Each
-                attendee receives a separate ticket
-                and QR code.
+                One package costs ₦
+                {tickets["friends-of-five"].priceNaira.toLocaleString("en-NG")}
+                {" "}and includes five individual admissions.
+                Each attendee receives a separate ticket
+                and ticket code.
               </p>
             </details>
 
@@ -201,10 +208,9 @@ export function HomeSections() {
               <summary>Where is the venue?</summary>
 
               <p>
-                The venue is currently undisclosed.
-                Confirmed guests will receive venue
-                details through official event
-                communication.
+                The event takes place at{" "}
+                {eventConfig.venue}.
+                {" "}{eventConfig.venueLandmark}.
               </p>
             </details>
 

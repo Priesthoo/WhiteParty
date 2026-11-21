@@ -23,7 +23,17 @@ export function createSupabaseAdminClient() {
       "SUPABASE_SECRET_KEY_NOT_CONFIGURED",
     );
   }
-
+  console.log("Supabase configuration:", {
+  projectHost: new URL(url).host,
+  keyPresent: Boolean(secretKey),
+  keyType: secretKey.startsWith("sb_secret_")
+    ? "Secret key"
+    : secretKey.startsWith("sb_publishable_")
+      ? "Publishable key"
+      : secretKey.startsWith("eyJ")
+        ? "Legacy JWT key"
+        : "Unknown key format",
+});
   return createSupabaseClient(
     url,
     secretKey,

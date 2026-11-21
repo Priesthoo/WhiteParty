@@ -1,5 +1,5 @@
 export const EVENT_START_AT =
-  "2026-12-13T20:00:00+01:00";
+  "2026-12-11T20:00:00+01:00";
 
 export const eventConfig = {
   name: "ALL WHITE POOL PARTY",
@@ -8,11 +8,15 @@ export const eventConfig = {
 
   presentedBy: "TINOTENDA MEDIA LIMITED",
 
-  dateLabel: "Sunday, December 13, 2026",
+  dateLabel: "Friday, December 11, 2026",
 
   timeLabel: "8:00 PM",
 
-  venue: "Undisclosed",
+  venue:
+    "2, Lanre Laogoshe Close, off Etal Avenue, Oregun, Ikeja",
+
+  venueLandmark:
+    "In front of NNPC, First Bank Bus Stop",
 
   slogan: "PARTY TILL MAMA CALLS",
 
@@ -25,23 +29,27 @@ export const eventConfig = {
     "early-bird": {
       id: "early-bird",
       name: "Early Bird",
-      priceNaira: 4000,
+      priceNaira: 3000,
       admissionsPerUnit: 1,
     },
 
-    "regular": {
+    regular: {
       id: "regular",
       name: "Regular",
-      priceNaira: 8000,
+      priceNaira: 5000,
       admissionsPerUnit: 1,
     },
 
     "friends-of-five": {
       id: "friends-of-five",
       name: "Friends of 5",
-      priceNaira: 36000,
+      priceNaira: 20000,
       admissionsPerUnit: 5,
     },
+  },
+
+  limits: {
+    earlyBirdAdmissions: 30,
   },
 } as const;
 

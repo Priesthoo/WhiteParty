@@ -1,4 +1,3 @@
-
 "use client";
 
 import {
@@ -17,7 +16,6 @@ import {
   Clock3,
   CheckCircle2,
   XCircle,
-  Ticket as TicketIcon,
   AlertTriangle,
 } from "lucide-react";
 
@@ -27,6 +25,8 @@ import {
   Card,
   Container,
 } from "@/components/ui";
+
+import { eventConfig } from "@/features/events/config/event";
 
 // ===========================================================
 // TYPES
@@ -87,7 +87,6 @@ const TICKET_MESSAGES: Record<string, string> = {
   unknown:
     "We could not determine the status of this order. Please contact the event organiser.",
 };
-
 
 // ===========================================================
 // HELPERS
@@ -195,7 +194,6 @@ function formatDate(value: string): string {
   });
 }
 
-
 // ===========================================================
 // COMPONENT
 // ===========================================================
@@ -224,7 +222,6 @@ export function TicketWallet({
 
   const [busy, setBusy] = useState(false);
 
-
   // =========================================================
   // REFS
   // =========================================================
@@ -235,7 +232,6 @@ export function TicketWallet({
 
   const controllerRef =
     useRef<AbortController | null>(null);
-
 
   // =========================================================
   // LOAD CUSTOMER TICKETS
@@ -406,7 +402,6 @@ export function TicketWallet({
     }
   }, [reference]);
 
-
   // =========================================================
   // INITIAL LOAD AND CLEANUP
   // =========================================================
@@ -427,7 +422,6 @@ export function TicketWallet({
     };
   }, [load]);
 
-
   // =========================================================
   // REFRESH
   // =========================================================
@@ -437,7 +431,6 @@ export function TicketWallet({
 
     await load();
   }
-
 
   // =========================================================
   // TICKET STATISTICS
@@ -454,7 +447,6 @@ export function TicketWallet({
   const cancelledCount = tickets.filter(
     (ticket) => ticket.status === "cancelled",
   ).length;
-
 
   // =========================================================
   // EMPTY STATE CONFIGURATION
@@ -498,10 +490,18 @@ export function TicketWallet({
     },
   };
 
-  const state = emptyState[status === "loading" ? "unknown" : status];
+  const state = emptyState[
+    status === "loading" ? "unknown" : status
+  ];
 
   const EmptyIcon = state.icon;
 
+  // =========================================================
+  // EVENT DISPLAY DETAILS
+  // =========================================================
+
+  const eventDateTime =
+    `${eventConfig.dateLabel.toUpperCase()} · ${eventConfig.timeLabel}`;
 
   // =========================================================
   // RENDER
@@ -517,21 +517,19 @@ export function TicketWallet({
 
         <div className="page-heading">
           <Badge variant="gold">
-            ZIMJA FEST
+            {eventConfig.organizer}
           </Badge>
 
           <h1>Your event tickets</h1>
 
           <p>
-            ALL WHITE POOL PARTY · SUNDAY,
-            13 DECEMBER 2026 · 8 PM
+            {eventConfig.name} · {eventDateTime}
           </p>
 
           <p className="muted">
             Order: {reference}
           </p>
         </div>
-
 
         {/* ------------------------------------------------ */}
         {/* WALLET TOOLBAR */}
@@ -565,7 +563,6 @@ export function TicketWallet({
 
         </div>
 
-
         {/* ------------------------------------------------ */}
         {/* LOADING STATE */}
         {/* ------------------------------------------------ */}
@@ -582,7 +579,6 @@ export function TicketWallet({
             </p>
           </Card>
         )}
-
 
         {/* ------------------------------------------------ */}
         {/* ERROR STATE */}
@@ -616,7 +612,6 @@ export function TicketWallet({
           </Card>
         )}
 
-
         {/* ------------------------------------------------ */}
         {/* PAYMENT OR ORDER STATUS */}
         {/* ------------------------------------------------ */}
@@ -644,29 +639,28 @@ export function TicketWallet({
               </p>
 
               {status === "expired" ||
-                status === "cancelled" ? (
-                  <Button
-                    variant="outline"
-                    onClick={() =>
-                      window.location.assign("/tickets")
-                    }
-                  >
-                    Browse tickets
-                  </Button>
-                ) : (
-                  <Button
-                    variant="outline"
-                    onClick={() => void refresh()}
-                    disabled={busy}
-                  >
-                    <RefreshCw size={15} />
+              status === "cancelled" ? (
+                <Button
+                  variant="outline"
+                  onClick={() =>
+                    window.location.assign("/tickets")
+                  }
+                >
+                  Browse tickets
+                </Button>
+              ) : (
+                <Button
+                  variant="outline"
+                  onClick={() => void refresh()}
+                  disabled={busy}
+                >
+                  <RefreshCw size={15} />
 
-                    Check again
-                  </Button>
-                )}
+                  Check again
+                </Button>
+              )}
             </Card>
           )}
-
 
         {/* ------------------------------------------------ */}
         {/* PAID ORDER SUMMARY */}
@@ -719,7 +713,6 @@ export function TicketWallet({
             </Card>
           )}
 
-
         {/* ------------------------------------------------ */}
         {/* INDIVIDUAL DIGITAL TICKETS */}
         {/* ------------------------------------------------ */}
@@ -744,13 +737,14 @@ export function TicketWallet({
                     {/* TICKET HEADER */}
 
                     <div className="digital-ticket-head">
-                      <span>ZIMJA FEST PRESENTS</span>
+                      <span>
+                        {eventConfig.organizer} PRESENTS
+                      </span>
 
                       <strong>
                         ALL WHITE · POOL PARTY
                       </strong>
                     </div>
-
 
                     {/* TICKET BODY */}
 
@@ -784,7 +778,6 @@ export function TicketWallet({
                         ADMISSION {index + 1} OF {tickets.length}
                       </span>
 
-
                       {/* QR CREDENTIAL */}
 
                       {active && images[ticket.ticketCode] && (
@@ -800,7 +793,6 @@ export function TicketWallet({
                           </small>
                         </div>
                       )}
-
 
                       {/* NON-ACTIVE TICKET */}
 
@@ -825,7 +817,6 @@ export function TicketWallet({
                         </div>
                       )}
 
-
                       <small>
                         {active
                           ? "SCAN AT EVENT ENTRY"
@@ -833,7 +824,6 @@ export function TicketWallet({
                       </small>
 
                     </div>
-
 
                     {/* TICKET IDENTIFICATION */}
 
@@ -845,16 +835,15 @@ export function TicketWallet({
                       </strong>
                     </div>
 
-
                     {/* TICKET FOOTER */}
 
                     <div className="digital-ticket-foot">
-                      SUNDAY · DECEMBER 13, 2026 · 8 PM
+                      {eventDateTime.toUpperCase()}
 
                       <br />
 
                       <strong>
-                        PARTY TILL MAMA CALLS
+                        {eventConfig.slogan}
                       </strong>
                     </div>
 
@@ -865,16 +854,13 @@ export function TicketWallet({
             </div>
           )}
 
-
         {/* ------------------------------------------------ */}
         {/* WALLET SECURITY MESSAGE */}
         {/* ------------------------------------------------ */}
 
         {tickets.length > 0 && (
           <div className="wallet-security-note">
-            <ShieldCheck
-              size={17}
-            />
+            <ShieldCheck size={17} />
 
             <p>
               Keep your ticket QR code private.

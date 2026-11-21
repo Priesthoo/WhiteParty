@@ -19,6 +19,8 @@ import {
 import { Countdown } from "./Countdown";
 
 export function HeroSection() {
+  const tickets = eventConfig.tickets;
+
   return (
     <section className="hero">
 
@@ -75,20 +77,26 @@ export function HeroSection() {
 
               <span>
                 <strong>{eventConfig.venue}</strong>
-                <small>VENUE</small>
+                <small>{eventConfig.venueLandmark}</small>
               </span>
             </div>
 
           </div>
 
           <div className="hero-offer">
+
             <span>EARLY BIRD OFFER</span>
 
-            <strong>₦4,000</strong>
+            <strong>
+              ₦{tickets["early-bird"].priceNaira.toLocaleString("en-NG")}
+            </strong>
 
             <small>
-              Regular ₦8,000 · Friends of 5 ₦36,000
+              Regular ₦{tickets.regular.priceNaira.toLocaleString("en-NG")}
+              {" · "}
+              Friends of 5 ₦{tickets["friends-of-five"].priceNaira.toLocaleString("en-NG")}
             </small>
+
           </div>
 
           <div className="hero-actions">

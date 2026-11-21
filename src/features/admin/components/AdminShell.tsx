@@ -1,4 +1,3 @@
-
 "use client";
 
 import {
@@ -25,6 +24,8 @@ import {
   createClient,
 } from "@/lib/supabase/browser";
 
+import { eventConfig } from "@/features/events/config/event";
+
 // ===========================================================
 // TYPES
 // ===========================================================
@@ -48,7 +49,6 @@ type NavigationItem = {
   icon: typeof LayoutDashboard;
   roles: readonly AdminRole[];
 };
-
 
 // ===========================================================
 // NAVIGATION CONFIGURATION
@@ -75,7 +75,6 @@ const navigation: NavigationItem[] = [
   },
 ];
 
-
 // ===========================================================
 // COMPONENT
 // ===========================================================
@@ -93,7 +92,6 @@ export function AdminShell({
 
   const [logoutError, setLogoutError] = useState("");
 
-
   // =========================================================
   // ROLE-BASED NAVIGATION
   // =========================================================
@@ -101,7 +99,6 @@ export function AdminShell({
   const allowedNavigation = navigation.filter(
     (item) => item.roles.includes(adminRole),
   );
-
 
   // =========================================================
   // ACTIVE NAVIGATION ITEM
@@ -117,7 +114,6 @@ export function AdminShell({
       pathname.startsWith(`${href}/`)
     );
   }
-
 
   // =========================================================
   // ADMIN LOGOUT
@@ -139,7 +135,6 @@ export function AdminShell({
         throw error;
       }
 
-      // Remove the authenticated admin session.
       router.replace("/admin/login");
 
       router.refresh();
@@ -159,7 +154,6 @@ export function AdminShell({
       setLoggingOut(false);
     }
   }
-
 
   // =========================================================
   // RENDER
@@ -191,7 +185,6 @@ export function AdminShell({
           </span>
         </Link>
 
-
         {/* EVENT INFORMATION */}
 
         <div className="admin-event">
@@ -200,14 +193,13 @@ export function AdminShell({
           </small>
 
           <strong>
-            ALL WHITE POOL PARTY
+            {eventConfig.name}
           </strong>
 
           <span>
-            13 DECEMBER 2026
+            {eventConfig.dateLabel.toUpperCase()}
           </span>
         </div>
-
 
         {/* NAVIGATION */}
 
@@ -243,7 +235,6 @@ export function AdminShell({
           })}
         </nav>
 
-
         {/* ADMINISTRATOR PROFILE */}
 
         <div className="admin-user">
@@ -270,7 +261,6 @@ export function AdminShell({
             {adminRole.replaceAll("_", " ")}
           </span>
 
-
           {/* LOGOUT ERROR */}
 
           {logoutError && (
@@ -281,7 +271,6 @@ export function AdminShell({
               {logoutError}
             </div>
           )}
-
 
           {/* LOGOUT BUTTON */}
 
@@ -305,7 +294,6 @@ export function AdminShell({
 
       </aside>
 
-
       {/* ------------------------------------------------- */}
       {/* MAIN ADMIN CONTENT */}
       {/* ------------------------------------------------- */}
@@ -323,7 +311,6 @@ export function AdminShell({
             PRIVATE WORKSPACE
           </span>
         </header>
-
 
         {/* PAGE CONTENT */}
 

@@ -148,8 +148,12 @@ export async function POST(request: Request) {
         );
       }
 
-      console.error("Order RPC failed", error.code);
-
+console.error("Order RPC failed:", {
+  code: error.code,
+  message: error.message,
+  details: error.details,
+  hint: error.hint,
+});
       return NextResponse.json(
         {
           error: {
@@ -177,11 +181,19 @@ export async function POST(request: Request) {
       },
     );
 
-  } catch {
+  }    catch (caught) {
+    console.error("Order route failed:", {
+      message:
+        caught instanceof Error
+          ? caught.message
+          : "Unknown error",
+    });
+
     return NextResponse.json(
       {
         error: {
-          message: "Ticket reservation service is not configured.",
+          message:
+            "Ticket reservation service is unavailable.",
         },
       },
       { status: 503 },
