@@ -1,0 +1,21 @@
+AFTER DOWNLOADING THE ZIP
+
+1. Extract all-white-pool-party.zip into Documents.
+2. Open PowerShell in the extracted all-white-pool-party folder.
+3. Check Node: node -v (20.9+ required; Node 22 recommended).
+4. Install packages: npm install
+5. Copy environment template: Copy-Item .env.example .env.local
+6. Create a Supabase project and fill the Supabase URL, publishable key and private service-role key in .env.local.
+7. Generate TICKET_QR_SECRET:
+   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+   Paste the 64-character output into .env.local.
+8. Fill in the organiser's real bank name, account name, 10-digit account number and transfer instructions in .env.local. Do not put these details in source code.
+9. Open Supabase SQL Editor and run supabase/migrations/0001_complete_schema.sql once.
+10. In Supabase Authentication > Users, create the owner login. Copy that user's UUID.
+11. In Supabase SQL Editor, run the insert statement in docs/CREATE-FIRST-ADMIN.sql after replacing the UUID.
+12. Start locally: npm run dev
+13. Open http://localhost:3000
+14. Admin login: http://localhost:3000/admin/login
+15. Before real sales, complete docs/PRODUCTION-CHECKLIST.md. Email delivery/recovery, rate limiting, MFA, malware scanning, scheduled expiration and full end-to-end tests still need to be done.
+
+The site does not use Paystack. It accepts customer transfer details, but a human administrator must verify the actual bank credit before ticket issuance. Never approve from a receipt screenshot alone.
